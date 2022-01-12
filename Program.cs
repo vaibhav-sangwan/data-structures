@@ -9,18 +9,23 @@ namespace Data_Structures
     {
         static void Main(string[] args)
         {
-            UnionFind uf = new UnionFind(10);
-            uf.Unify(3, 5);
-            uf.Unify(5, 8);
-            uf.Unify(7, 8);
-            uf.Unify(1, 4);
-            uf.Unify(1, 3);
-            Console.WriteLine(uf.Find(8));
-            Console.WriteLine(uf.numOfComponents);
-            Console.WriteLine(uf.Unified(7, 1));
-            Console.WriteLine(uf.Unified(7, 6));
-
-            
+            BinarySearchTree BST = new BinarySearchTree();
+            BST.Insert(11);
+            BST.Insert(8);
+            BST.Insert(3);
+            BST.Insert(1);
+            BST.Insert(6);
+            BST.Insert(12);
+            BST.Insert(17);
+            BST.Insert(13);
+            BST.Insert(19);
+            BST.Insert(14);
+            BST.Insert(5);
+            BST.Insert(15);
+            BST.LevelOrderTraversal();
+            Console.WriteLine();
+            BST.Remove(17);
+            BST.LevelOrderTraversal();
 
 
         }
