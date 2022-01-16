@@ -23,8 +23,8 @@ namespace Data_Structures
             BST.Insert(5);
             BST.Insert(15);
             BST.LevelOrderTraversal();
-            Console.WriteLine();
             BST.Remove(17);
+            Console.WriteLine();
             BST.LevelOrderTraversal();
 
 

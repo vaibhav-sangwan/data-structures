@@ -8,56 +8,44 @@ namespace Data_Structures
 {
     class BinarySearchTree
     {
-        private Node rootNode = null;
-        private class Node
+        internal class Node
         {
             internal int data = 0;
-            internal Node leftChild = null;
-            internal Node rightChild = null;
-            internal Node parentNode = null;
+            internal Node left = null;
+            internal Node right = null;
         }
 
-        public void Insert(int newNodedata)
+        internal Node root = null;
+
+        public void Insert(int newNodeData)
         {
-            Insert(newNodedata, rootNode);
+            InsertIn(ref root, newNodeData);
         }
 
-        private void Insert(int newNodeData, Node node)
+        private void InsertIn(ref Node node, int newNodeData) // node is passed by reference to initialise the original node passed to this function
         {
             if(node == null)
             {
-                Node newNode = new Node();
-                newNode.data = newNodeData;
-                rootNode = newNode;
+                node = new Node();
+                node.data = newNodeData;
             }
             else if(newNodeData < node.data)
             {
-                if(node.leftChild != null)
-                    Insert(newNodeData, node.leftChild);
-                else
-                {
-                    Node newNode = new Node();
-                    newNode.data = newNodeData;
-                    newNode.parentNode = node;
-                    node.leftChild = newNode;
-                }
+                InsertIn(ref node.left, newNodeData);
             }
             else if(newNodeData > node.data)
             {
-                if (node.rightChild != null)
-                    Insert(newNodeData, node.rightChild);
-                else
-                {
-                    Node newNode = new Node();
-                    newNode.data = newNodeData;
-                    newNode.parentNode = node;
-                    node.rightChild = newNode;
-                }
+                InsertIn(ref node.right, newNodeData);
             }
             else if(newNodeData == node.data)
             {
-                //do nothing
+                // do nothing
             }
+        }
+
+        public bool Contains(int nodeData)
+        {
+            return (Find(nodeData, root) != null);
         }
 
         private Node Find(int nodeData, Node node)
@@ -66,116 +54,83 @@ namespace Data_Structures
                 return null;
             else if (nodeData == node.data)
                 return node;
-            else if (nodeData < node.data)
-                return Find(nodeData, node.leftChild);
-            else if (nodeData > node.data)
-                return Find(nodeData, node.rightChild);
-
-            return node;
-        }
-
-        public bool Contains(int nodeData)
-        {
-            if (Find(nodeData, rootNode) == null)
-                return false;
-            else return true;
+            else if(nodeData < node.data)
+                return Find(nodeData, node.left);
+            else if(nodeData > node.data)
+                return Find(nodeData, node.right);
+            else
+                return node;
         }
 
         public void Remove(int nodeData)
         {
-            Node node = Find(nodeData, rootNode);
-            if(node == null)
+            if (Contains(nodeData))
+                root = Remove(nodeData, root);
+        }
+
+        private Node Remove(int nodeData, Node node)
+        {
+            if(nodeData < node.data)
+                node.left = Remove(nodeData, node.left);
+            else if(nodeData > node.data)
+                node.right = Remove(nodeData, node.right);
+            if(node.data == nodeData)
             {
-                throw new Exception("The Node you are trying to delete doesn't exist.");
-            }
-            else
-            {
-                if (node.leftChild == null && node.rightChild == null)
-                {
-                    if (node == node.parentNode.leftChild)
-                        node.parentNode.leftChild = null;
-                    else
-                        node.parentNode.rightChild = null;
+                if (node.left == null && node.right == null)
+                    return null;
 
-                    node.parentNode = null;    
-                }
-
-                else if(node.leftChild != null && node.rightChild == null)
-                {
-                    if(node == node.parentNode.leftChild)
-                    {
-                        node.parentNode.leftChild = node.leftChild;
-                    }
-                    else
-                    {
-                        node.parentNode.rightChild = node.leftChild;
-                    }
-                }
-
-                else if (node.leftChild == null && node.rightChild != null)
-                {
-                    if (node == node.parentNode.leftChild)
-                    {
-                        node.parentNode.leftChild = node.rightChild;
-                    }
-                    else
-                    {
-                        node.parentNode.rightChild = node.rightChild;
-                    }
-                }
+                else if (node.left == null)
+                    return node.right;
+                else if (node.right == null)
+                    return node.left;
                 else
                 {
-                    Node successor = largest(node.leftChild);
-                    Remove(successor.data);
-                    node.data = successor.data;
-                    Console.WriteLine(successor.data);
+                    Node temp = greatest(node.left);
+                    node.data = temp.data;
+                    node.left = Remove(temp.data, node.left);
                 }
-
-
             }
+            return node;
         }
 
-        private Node largest(Node node)
+        private Node greatest(Node node)
         {
-            if (node.rightChild == null)
-                return node;
-            else
-                return largest(node.rightChild);
+            Node temp = node;
+            while (temp.right != null)
+                temp = temp.right;
+            return temp;
         }
 
-        public void Traversal()
+        public void InOrderTraversal()
         {
-            Traversal(rootNode);
+            InOrderTraversal(root);
         }
-        private void Traversal(Node node) //inorder traversal
+
+        private void InOrderTraversal(Node node) // print appears in between traversals
         {
-            if(node == null)
+            if(node != null)
             {
-
-            }
-            else
-            {
-                Traversal(node.leftChild);
+                InOrderTraversal(node.left);
                 Console.Write(node.data + " ");
-                Traversal(node.rightChild);
+                InOrderTraversal(node.right);
             }
         }
 
         public void LevelOrderTraversal()
         {
             Queue<Node> q = new Queue<Node>();
-            q.Enqueue(rootNode);
-            while (q.Count != 0)
+            q.Enqueue(root);
+            while(q.Count != 0)
             {
                 if(q.Peek() != null)
                 {
+                    q.Enqueue(q.Peek().left);
+                    q.Enqueue(q.Peek().right);
                     Console.Write(q.Peek().data + " ");
-                    q.Enqueue(q.Peek().leftChild);
-                    q.Enqueue(q.Peek().rightChild);
                 }
                 q.Dequeue();
             }
-
         }
+
     }
 }
