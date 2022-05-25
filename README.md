@@ -11,6 +11,7 @@ The repo demonstrates really easy to grasp implementation of Data Structures suc
 	- Union Find (or Disjoint Set)
 
 	- Merge Sort
+	- Binary Search
 
 	All the implementations are done using C#.
 
