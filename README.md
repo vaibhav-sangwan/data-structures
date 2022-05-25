@@ -10,5 +10,7 @@ The repo demonstrates really easy to grasp implementation of Data Structures suc
 	- Priority Queue
 	- Union Find (or Disjoint Set)
 
+	- Merge Sort
+
 	All the implementations are done using C#.
 
