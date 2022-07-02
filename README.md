@@ -9,6 +9,7 @@ The repo demonstrates really easy to grasp implementation of Data Structures suc
 	- Queue
 	- Priority Queue
 	- Union Find (or Disjoint Set)
+	- Segment Tree
 
 	- Merge Sort
 	- Binary Search
