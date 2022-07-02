@@ -10,8 +10,8 @@ namespace Data_Structures.Algortihms
         static void Main(string[] args)
         {
             int[] arr = { 1, 13, 24, 33, 54, 101, 123, 145, 233, 473, 2341 };
-            BinarySearch bs = new BinarySearch();
-            Console.WriteLine(bs.findIndex(arr, 473));
+            SegmentTree st = new SegmentTree();
+            st.Create(arr);
 
 
 
